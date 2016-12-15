@@ -25,11 +25,21 @@ class GoogleApisController < ApplicationController
   end
 
   def contacts_auth
-    #code
+    client = new_google_oauth2_client
+    fetch_code_url = client.auth_code.authorize_url(scope: "https://www.google.com/m8/feeds",
+               redirect_uri: contacts_callback_google_apis_url)
+
+    redirect_to fetch_code_url
   end
 
   def contacts_callback
-    #code
+    @people_data = []
+    @id = 0
+    client = new_google_oauth2_client
+    token = client.auth_code.get_token(params[:code], :redirect_uri => contacts_callback_google_apis_url)
+    user = GoogleContactsApi::User.new(token)
+    save_contacts(user.contacts)
+    render :people_callback
   end
 
   private
@@ -74,6 +84,28 @@ class GoogleApisController < ApplicationController
                       }
       @id += 1
     }
+  end
+
+  def new_google_oauth2_client
+    google_app = Rails.application.config_for(:google)
+    OAuth2::Client.new(google_app['app_id'], google_app['secret'],
+                       site: 'https://accounts.google.com',
+                       token_url: '/o/oauth2/token',
+                       authorize_url: '/o/oauth2/auth')
+  end
+
+  def save_contacts(contacts)
+    return if contacts.blank?
+
+    contacts.each{ |person|
+      person_email = person.primary_email || person.emails.first
+      @people_data << {
+        id: @id,
+        name: person.title,
+        email: person_email
+      }
+    }
+
   end
 
 end

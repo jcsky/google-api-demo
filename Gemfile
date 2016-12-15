@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 gem 'google-api-client'
-gem 'google_contacts_api'
 gem 'rest-client'
+gem 'google_contacts_api'
+gem 'omniauth-google-oauth2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
