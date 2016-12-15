@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GoogleApiControllerTest < ActionDispatch::IntegrationTest
+class GoogleApisControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end

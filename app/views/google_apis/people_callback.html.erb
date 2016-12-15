@@ -1,0 +1,5 @@
+<ul>
+  <% @people_data.each do |person| %>
+    <li><%= "#{person[:id]}, #{person[:name]}, #{person[:email]}" %></li>
+  <% end %>
+</ul>
