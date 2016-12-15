@@ -9,8 +9,8 @@ class GoogleApisController < ApplicationController
 
   def people_auth
     set_google_api_service
-    fetch_code_url = @service.authorization.authorization_uri.to_s
-    redirect_to fetch_code_url
+    authorization_uri = @service.authorization.authorization_uri.to_s
+    redirect_to authorization_uri
   end
 
   def people_callback
@@ -22,6 +22,14 @@ class GoogleApisController < ApplicationController
     while has_next_data do
       has_next_data = fetch_people(@next_page_token)
     end
+  end
+
+  def contacts_auth
+    #code
+  end
+
+  def contacts_callback
+    #code
   end
 
   private
